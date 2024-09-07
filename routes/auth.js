@@ -50,11 +50,16 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
 });
 
 // Logout
-router.get('/logout', (req, res) => {
-    req.logout((err) => {
-        if (err) return next(err);
-        res.json({ message: 'Logged out successfully' });
+router.get('/logout', (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        req.session.destroy((err) => {
+            if (err) { return next(err); }
+            res.clearCookie('connect.sid');
+            res.json({ message: 'Logged out successfully' });
+        });
     });
 });
+
 
 module.exports = router;
