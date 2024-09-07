@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    googleId: String,
-    email: String,
+    email: { type: String, required: true, unique: true },
+    password: String,  // Only for local registration
+    googleId: String,  // Only for Google OAuth users
     name: String,
     picture: String
 });
