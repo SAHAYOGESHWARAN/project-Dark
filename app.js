@@ -8,11 +8,11 @@ require('./config/passport-setup');
 const authRoutes = require('./routes/auth');
 const app = express();
 
+app.use(express.json()); // For parsing JSON bodies
 app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_KEY]
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Home page');
+    res.send('Welcome to the Authentication System');
 });
 
 const PORT = process.env.PORT || 5000;
